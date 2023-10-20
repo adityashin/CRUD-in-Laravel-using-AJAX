@@ -112,7 +112,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="closeCreateModel" class="btn btn-secondary"
+                            <button type="button" id="closeUpdateModal" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Close</button>
                             <button type="button" id="updateemployee" class="btn btn-primary">Update</button>
                         </div>
@@ -190,7 +190,16 @@
                     contentType:false,
                     processData:false,
                     success:function(response){
-
+                        if(response.status == 200){
+                            console.log(response.status);
+                            console.log(response.message);
+                            $('#closeUpdateModal').click();
+                        fetchEmployeeRecords();                  
+                          }else{
+                            console.log(response.status);
+                            console.log(response.message);
+                            fetchEmployeeRecords();
+                        }
                     }
                 })
             })

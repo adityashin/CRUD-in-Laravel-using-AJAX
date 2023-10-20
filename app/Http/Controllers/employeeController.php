@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use Faker\Provider\bg_BG\PhoneNumber;
 use Illuminate\Http\Request;
+use illuminate\Support\Facades\File;
 
 class employeeController extends Controller
 {
@@ -38,6 +39,7 @@ class employeeController extends Controller
 
         if(!empty($image)){
             $image->move('employees/',$filename);
+
         }
 
         $employee = new Employee([
@@ -87,7 +89,35 @@ class employeeController extends Controller
     public function update(Request $request, string $id)
     {
         $employee = Employee::find($id);
+        if($employee){
         
+        $employee->name = $request->get('name');
+        $employee->phone = $request->get('phone');
+        
+        if($request->hasFile('image')){
+            $path = $request->file('image');    
+            // if(File::exists($path)){
+            //     File::delete($path);
+            // }
+ 
+         $image = $request->file('image');
+         $filename = $image->getClientOriginalName();
+         $image->move('employees/',$filename);
+         $employee->image = $filename;  
+
+        }
+        $employee->save();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Employee Updated Successfully',
+        ]);
+
+        }else{
+            return response()->json([
+                'status'=>404,
+                'message'=>"Could'nt find employee",
+            ]);
+        }
     }
 
     /**
