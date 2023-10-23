@@ -125,6 +125,16 @@ class employeeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $employee = Employee::find($id);
+        if($employee){
+        return response()->json([
+            'status'=>200,
+            'message'=>'Employee Deleted Successfully',
+        ]);
+        }else{
+            return response()->json([
+                'status'=>404,
+                'message'=>"Can't Find Employee"
+            ]);
+        };      
     }
-}

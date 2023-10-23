@@ -29,3 +29,5 @@ Route::get('/fetchemployee',[employeeController::class,'fetchEmployeeRecords']);
 Route::get('/edit_emp/{id}',[employeeController::class,'edit']);
 
 Route::post('/update_employee/{id}',[employeeController::class,'update']);
+
+Route::post('/delete_employee/{id}',[employeeController::class,'destroy']);

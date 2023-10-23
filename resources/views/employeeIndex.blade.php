@@ -33,7 +33,7 @@
                     <form id="addEmployeeForm" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
-                            
+
                             <div class="mb-3">
                                 <label for="text-input" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="text-input" name="name" required
@@ -74,53 +74,80 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        
+
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-   <!--Update Modal -->
-   <div class="modal fade" id="EditExampleModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Employee</h1>
-                        <div class="alert"></div>
-                        <button type="button" id="CloseUpdateModal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form id="UpdateEmployeeForm" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                        <div class="mb-3">
-                                <input type="hidden" class="form-control" id="editid" name="id" required disabled >
-                                <label for="edit_name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="editname" name="name" required placeholder="Enter Name...">
-                            </div>
-                            <div class="mb-3">
-                                <label for="editphone" class="form-label">Phone Number</label>
-                                <input type="number" class="form-control" id="editphone" name="phone" required placeholder="Enter Phone Number..." aria-describedby="email_Help">
-                            </div>
-                            <div class="mb-3">
-                                <label for="input_image" class="form-label">Image</label>
-                                <input type="file" name="image" id="input_image" class="form-control" required>
-                                <label for="current_image" class="form-label">Current Image</label>
-                                <div id="current_image">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" id="closeUpdateModal" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
-                            <button type="button" id="updateemployee" class="btn btn-primary">Update</button>
-                        </div>
-                    </form>
+    <!--Update Modal -->
+    <div class="modal fade" id="EditExampleModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Employee</h1>
+                    <div class="alert"></div>
+                    <button type="button" id="CloseUpdateModal" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
+                <form id="UpdateEmployeeForm" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <input type="hidden" class="form-control" id="editid" name="id" required disabled>
+                            <label for="edit_name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="editname" name="name" required
+                                placeholder="Enter Name...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editphone" class="form-label">Phone Number</label>
+                            <input type="number" class="form-control" id="editphone" name="phone" required
+                                placeholder="Enter Phone Number..." aria-describedby="email_Help">
+                        </div>
+                        <div class="mb-3">
+                            <label for="input_image" class="form-label">Image</label>
+                            <input type="file" name="image" id="input_image" class="form-control" required>
+                            <label for="current_image" class="form-label">Current Image</label>
+                            <div id="current_image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeUpdateModal" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="updateemployee" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 
+    <!-- Delete Modal -->
+    <div class="modal fade" id="DeleteEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="modal-body">
+                        <h3 class="text-danger">Are you sure You Want to Delete?</h3>
+                        <input type="hidden" name="" id="deleting_emp_id">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeUpdateModal" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="deleteemployee" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -128,74 +155,91 @@
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
     <script>
-        $(document).ready(function( ){ 
+        $(document).ready(function () {
+
+            $(document).on('click', '.btn_delete', function (e) {
+                e.preventDefault();
+
+                let empid = $(this).val();
+                $('#DeleteEmployee').modal('show');
+                $('#deleting_emp_id').val(empid);
+                $.ajax({
+                    type:'POST',
+                    url:'/delete_employee/{id}',
+                    success:function(response){
+
+                    }
+                })
+
+            })
+
 
             fetchEmployeeRecords();
 
-            function fetchEmployeeRecords(){
+            function fetchEmployeeRecords() {
                 $.ajax({
-                    type:'GET',
-                    url:'/fetchemployee',
-                    datatype:"json",
-                    success:function(response) {
+                    type: 'GET',
+                    url: '/fetchemployee',
+                    datatype: "json",
+                    success: function (response) {
                         $('tbody').html('');
-                        $.each(response.employee,function(key,item){
+                        $.each(response.employee, function (key, item) {
                             $('tbody').append('<tr>\
-                            <td>'+item.id+'</td>\
-                            <td>'+item.name+'</td>\
-                            <td>'+item.phone+'</td>\
-                            <td><img src="./employees/'+item.image+' "alt="'+item.image+'" height="200" width="200"></td>\
-                            <td><button class="btn_edit btn btn-primary" value='+item.id+'>Update</button></td>\
-                            <td><button class="btn_delete btn btn-danger" value='+item.id+'>Delete</button></td>\
+                            <td>'+ item.id + '</td>\
+                            <td>'+ item.name + '</td>\
+                            <td>'+ item.phone + '</td>\
+                            <td><img src="./employees/'+ item.image + ' "alt="' + item.image + '" height="200" width="200"></td>\
+                            <td><button class="btn_edit btn btn-primary" value='+ item.id + '>Update</button></td>\
+                            <td><button class="btn_delete btn btn-danger" value='+ item.id + '>Delete</button></td>\
                         </tr>')
                         })
                     },
-                    error:function(response) {
+                    error: function (response) {
                         console.log(response);
                     }
                 })
-            } 
+            }
 
-            $(document).on('click','.btn_edit',function(e){
+            $(document).on('click', '.btn_edit', function (e) {
                 e.preventDefault();
 
                 let empid = $(this).val();
                 $('#EditExampleModel').modal('show');
                 $.ajax({
-                    type:'GET',
-                    url:'/edit_emp/'+empid,
-                    success:function(response){
-                        if(response.status == 404){
+                    type: 'GET',
+                    url: '/edit_emp/' + empid,
+                    success: function (response) {
+                        if (response.status == 404) {
                             alert(response.message);
                             $('#EditExampleModel').modal('hide');
-                        }else{
+                        } else {
                             $('#editid').val(response.employee.id);
                             $('#editname').val(response.employee.name);
                             $('#editphone').val(response.employee.phone);
-                            $('#current_image').html('<img src="employees/'+response.employee.image+'" alt="'+response.employee.image+'" height="100" width="100">')
+                            $('#current_image').html('<img src="employees/' + response.employee.image + '" alt="' + response.employee.image + '" height="100" width="100">')
                         }
                     }
                 })
             })
 
-            $(document).on('click','#updateemployee',function(e){
+            $(document).on('click', '#updateemployee', function (e) {
                 e.preventDefault();
 
                 let formdata = new FormData($('#UpdateEmployeeForm')[0]);
-                let empid = $('#editid').val(); 
+                let empid = $('#editid').val();
                 $.ajax({
-                    type:'POST',
-                    url:'/update_employee/'+empid,
-                    data:formdata,
-                    contentType:false,
-                    processData:false,
-                    success:function(response){
-                        if(response.status == 200){
+                    type: 'POST',
+                    url: '/update_employee/' + empid,
+                    data: formdata,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.status == 200) {
                             console.log(response.status);
                             console.log(response.message);
                             $('#closeUpdateModal').click();
-                        fetchEmployeeRecords();                  
-                          }else{
+                            fetchEmployeeRecords();
+                        } else {
                             console.log(response.status);
                             console.log(response.message);
                             fetchEmployeeRecords();
@@ -203,31 +247,31 @@
                     }
                 })
             })
-            
-            
 
-            $('#insertsave').on('click',function(e){
-                 e.preventDefault();
- 
-                 let formdata = new FormData($('#addEmployeeForm')[0]);
+
+
+            $('#insertsave').on('click', function (e) {
+                e.preventDefault();
+
+                let formdata = new FormData($('#addEmployeeForm')[0]);
                 $.ajax({
-                    type:'POST',
-                    url:'/employee',
-                    data:formdata,
-                    contentType:false, 
-                    processData:false,
-                    success:function(response){
+                    type: 'POST',
+                    url: '/employee',
+                    data: formdata,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
                         $('#closeCreateModel').click();
                         $('#addEmployeeForm')[0].reset();
                         fetchEmployeeRecords();
                     },
-                    error:function(data){
+                    error: function (data) {
                         console.log(data);
                     }
                 });
             });
 
-            
+
         })
     </script>
 </body>
